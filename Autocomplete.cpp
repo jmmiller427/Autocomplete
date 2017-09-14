@@ -29,16 +29,13 @@ void Autocomplete::Search (string key, int num)
 // make the index call the binary search to find the term
 	int index = BS_helper(key, 0, term.size());
 
-// if the index equals -1 return
 	if (index == -1)
 	{
 		return;
 	}
 
-// else
 	else
 	{
-		// make an up and down index
 		int up = index + 1;
 		int down = index - 1;
 
@@ -61,13 +58,11 @@ void Autocomplete::Search (string key, int num)
 	end = clock();
 	double elaspsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
-// if the match vector is empty return
 	if (match.size() == 0)
 	{
 		return;
 	}
 
-// sort the match vector by weight
 	weightSort();
 
 // if the match vector is less than the number argument
@@ -75,29 +70,25 @@ void Autocomplete::Search (string key, int num)
 	{
 		cout << "Time for searching all matched terms: " << elaspsed_secs << " seconds." << endl;
 
-		// for loop to print all the terms in the match vector
 		for (int k = 0; k < match.size(); k++)
 		{
 			cout << match[k] << endl;
 		}
 
-// clear the vector
 		match.clear();
 		return;
 	}
 
-// else 
 	else
 	{
 		cout << "Time for searching all matched terms: " << elaspsed_secs << " seconds." << endl;
 		
-		// for loop to print the top terms in the match vector up until the number argument
 		for (int j = 0; j < num; j++)
 		{
 			cout << match[j] << endl;
 		}
 	}
-	// sort the match vecotr by weight and clear it
+
 	weightSort();
 	match.clear();
 }
@@ -105,31 +96,25 @@ void Autocomplete::Search (string key, int num)
 // binary search
 int Autocomplete::BS_helper(string key, int left, int right)
 {
-	// make middle term
 	int middle = (left + right) / 2;
 
-// if the left term is greater than the right term return -1
 	if (left > right)
 	{
 		return -1;
 	}
 
-// else
 	else
 	{
-		// if the middle term is greater than the key return binary search with middle - 1
 		if ((term[middle]).getQuery().substr(0, key.length()) > key)
 		{
 			return BS_helper(key, left, middle - 1);
 		}
 
-// if middle term is less than the key return binary search with middle + 1
 		else if ((term[middle]).getQuery().substr(0, key.length()) < key)
 		{
 			return BS_helper(key, middle + 1, right);
 		}
 
-// else return middle
 		else
 		{
 			return middle;
@@ -150,13 +135,11 @@ void Autocomplete::Lexicographical(long left, long right)
 // while i is less than or equal to j
 	while (i <= j)
 	{
-		// while the term query is less than the query pivot point add to i
 		while (term[i].query < query_pivot)
 		{
 			i++;
 		}
-
-		// while the term query is greater than the query pivot point subtract from j
+		
 		while (term[j].query > query_pivot)
 		{
 			j--;
